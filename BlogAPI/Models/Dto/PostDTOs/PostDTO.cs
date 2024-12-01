@@ -1,9 +1,11 @@
-﻿namespace BlogAPI.Models.Domain
+﻿using BlogAPI.Models.Domain;
+
+namespace BlogAPI.Models.Dto.PostDTOs
 {
-    public class Post
+    public class PostDTO
     {
 
-        public Guid PostId { get; set; } 
+        public Guid PostId { get; set; }
 
         public string Title { get; set; }
 
@@ -14,16 +16,12 @@
         public Guid BlogId { get; set; }
 
         // Navigation Property for Blog
-        public Blog Blog { get; set; }
+        //public Blog Blog { get; set; }
 
 
         public ICollection<Tag> Tags { get; set; }
 
 
-        public Post()
-        {
-            Tags = new List<Tag>();
-        }
 
 
     }

@@ -1,9 +1,9 @@
-﻿namespace BlogAPI.Models.Domain
-{
-    public class Post
-    {
+﻿using BlogAPI.Models.Domain;
 
-        public Guid PostId { get; set; } 
+namespace BlogAPI.Models.Dto.PostDTOs
+{
+    public class UpdatePostRequestDTO
+    {
 
         public string Title { get; set; }
 
@@ -20,10 +20,9 @@
         public ICollection<Tag> Tags { get; set; }
 
 
-        public Post()
-        {
-            Tags = new List<Tag>();
-        }
+
+
+
 
 
     }

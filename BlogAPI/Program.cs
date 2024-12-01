@@ -16,6 +16,16 @@ builder.Services.AddDbContext<BlogDbContext>(options => options.UseNpgsql(builde
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 builder.Services.AddScoped<IBlogRepository, SQLBlogRepository>();
+builder.Services.AddScoped<IPostRepository, SQLPostRepository>();
+builder.Services.AddScoped<ITagRepository, SQLTagRepository>();
+
+
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+//    });
+
 
 var app = builder.Build();
 

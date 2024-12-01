@@ -7,10 +7,8 @@ namespace BlogAPI.Models.Dto.BlogDTOs
 
         public string Url { get; set; }
 
-       // public ICollection<Post> Posts { get; set; }
 
 
-
-
+       
     }
 }

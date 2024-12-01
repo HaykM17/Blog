@@ -1,5 +1,7 @@
 ﻿using BlogAPI.Data;
 using BlogAPI.Models.Domain;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Repositories
 {
@@ -16,8 +18,6 @@ namespace BlogAPI.Repositories
 
 
 
-
-
         public async Task<Blog> CreateBlogAsync(Blog blog)
         {
             await dbContext.Blogs.AddAsync(blog);
@@ -25,9 +25,47 @@ namespace BlogAPI.Repositories
             return blog;
         }
 
-        public async Task<Blog?> DeleteBlogAsync(int id)
+      
+
+
+
+        public async Task<List<Blog>> GetAllAsync()
         {
-           var existingBlog = dbContext.Blogs.FirstOrDefault(i=>i.BlogId == id);
+            return await dbContext.Blogs.Include(b=>b.Posts).ThenInclude(p=>p.Tags).ToListAsync();        
+        }
+
+        
+
+
+
+        public async Task<Blog?> GetByIdAsync(Guid id)
+        {
+            return await dbContext.Blogs.Include(b=>b.Posts).ThenInclude(p=>p.Tags).FirstOrDefaultAsync(b=>b.BlogId == id);
+        }
+
+       
+
+        public async Task<Blog?> UpdateBlogAsync(Guid id,Blog blog)
+        {
+            var existingBlog = await dbContext.Blogs.FirstOrDefaultAsync(b=>b.BlogId == id);
+
+            if (existingBlog == null)
+            {
+                return null;
+            }
+
+            existingBlog.Url = blog.Url;
+            await dbContext.SaveChangesAsync();
+
+            return existingBlog;
+        }
+
+
+
+
+        public async Task<Blog?> DeleteAsync(Guid id)
+        {
+            var existingBlog = dbContext.Blogs.FirstOrDefault(i => i.BlogId == id);
             if (existingBlog == null)
             {
                 return null;
@@ -37,19 +75,14 @@ namespace BlogAPI.Repositories
             return existingBlog;
         }
 
-        public async Task<List<Blog>> GetAllAsync()
-        {
-            return dbContext.Blogs.ToList();
-        }
 
-        public async Task<Blog?> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<Blog?> UpdateBlogAsync(int id, Blog blog)
-        {
-            throw new NotImplementedException();
-        }
+
+
+
+
+
+
+
     }
 }

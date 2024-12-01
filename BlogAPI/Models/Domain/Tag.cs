@@ -3,7 +3,7 @@
     public class Tag
     {
 
-        public int TagId { get; set; }
+        public Guid TagId { get; set; }
 
         public string Name { get; set; }
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,8 +15,7 @@ namespace BlogAPI.Migrations
                 name: "Blogs",
                 columns: table => new
                 {
-                    BlogId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BlogId = table.Column<Guid>(type: "uuid", nullable: false),
                     Url = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -28,8 +27,7 @@ namespace BlogAPI.Migrations
                 name: "Tags",
                 columns: table => new
                 {
-                    TagId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TagId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -41,11 +39,10 @@ namespace BlogAPI.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    PostId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    BlogId = table.Column<int>(type: "integer", nullable: false)
+                    BlogId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,8 +59,8 @@ namespace BlogAPI.Migrations
                 name: "PostTag",
                 columns: table => new
                 {
-                    PostsPostId = table.Column<int>(type: "integer", nullable: false),
-                    TagsTagId = table.Column<int>(type: "integer", nullable: false)
+                    PostsPostId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TagsTagId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
