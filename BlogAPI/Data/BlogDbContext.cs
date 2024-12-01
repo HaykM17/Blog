@@ -14,10 +14,10 @@ namespace BlogAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<Blog>().HasMany(b => b.Posts)    // Blog имеет много Post
-                              .WithOne(p => p.Blog)             // У Post один Blog
-                              .HasForeignKey(p => p.BlogId)     // Внешний ключ в таблице Posts
-                              .OnDelete(DeleteBehavior.Cascade); // Удаление постов при удалении блога        
+            modelBuilder.Entity<Blog>().HasMany(b => b.Posts)    
+                              .WithOne(p => p.Blog)             
+                              .HasForeignKey(p => p.BlogId)     
+                              .OnDelete(DeleteBehavior.Cascade);        
         }
 
 
