@@ -24,20 +24,7 @@ namespace BlogAPI.Controllers
 
 
 
-        /*
-                 [HttpPost]
-                 public async Task<IActionResult> Create([FromBody] AddPostRequestDTO addPostRequestDTO)
-                 {
-                     var postDomainModel = mapper.Map<Post>(addPostRequestDTO);
-                     postDomainModel = await postRepository.CreatePostAsync(postDomainModel);
-                     var postDto = mapper.Map<PostDTO>(postDomainModel);
-                     return Ok(postDto);
-                 }
-        */
-
-
-
-
+       // POST: /api/Post
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddPostRequestDTO addPostRequestDTO)
@@ -57,8 +44,87 @@ namespace BlogAPI.Controllers
 
             var postDto = mapper.Map<PostDTO>(postDomainModel);
 
+            return CreatedAtAction(nameof(GetById), new {Id = postDomainModel.PostId}, postDto);
+        }
+
+
+
+
+
+
+        // GET: /api/Post
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var postDomainModel = await postRepository.GetAllAsync();
+            var postDTO = mapper.Map<List<PostDTO>>(postDomainModel);
+            return Ok(postDTO);
+        }
+
+
+
+
+
+
+        // GetById: /api/Post/{id}
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetById([FromRoute]Guid id)
+        {
+            var postDomainModel = await postRepository.GetByIdAsync(id);
+
+            if(postDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            var postDto = mapper.Map<PostDTO>(postDomainModel);
             return Ok(postDto);
         }
+
+
+
+
+
+
+        // PUT: /api/Post/{id}
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Update([FromRoute]Guid id, [FromBody]UpdatePostRequestDTO updatePostRequestDTO)
+        {
+            var postDomainModel = mapper.Map<Post>(updatePostRequestDTO);
+
+            postDomainModel = await postRepository.UpdatePostAsync(id, postDomainModel);
+
+            if(postDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            var postDto = mapper.Map<PostDTO>(postDomainModel);
+            return Ok(postDto);
+        }
+
+
+
+
+
+
+        // DELETE: /api/Post/{id}
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var postDomainModel = await postRepository.DeletePostAsync(id);
+
+            if (postDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            var postDto = mapper.Map<PostDTO>(postDomainModel);
+            return Ok(postDto);
+        }
+
+
 
 
 

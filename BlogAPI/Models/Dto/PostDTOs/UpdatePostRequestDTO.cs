@@ -10,20 +10,7 @@ namespace BlogAPI.Models.Dto.PostDTOs
         public string Content { get; set; }
 
 
-        // Foreign Key for Blog
-        public Guid BlogId { get; set; }
-
-        // Navigation Property for Blog
-        public Blog Blog { get; set; }
-
-
-        public ICollection<Tag> Tags { get; set; }
-
-
-
-
-
-
+      
 
     }
 }

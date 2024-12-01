@@ -15,8 +15,8 @@ namespace BlogAPI.Data
         {
 
             modelBuilder.Entity<Blog>().HasMany(b => b.Posts)    // Blog имеет много Post
-                              .WithOne(p => p.Blog)     // У Post один Blog
-                              .HasForeignKey(p => p.BlogId) // Внешний ключ в таблице Posts
+                              .WithOne(p => p.Blog)             // У Post один Blog
+                              .HasForeignKey(p => p.BlogId)     // Внешний ключ в таблице Posts
                               .OnDelete(DeleteBehavior.Cascade); // Удаление постов при удалении блога        
         }
 

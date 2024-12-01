@@ -6,14 +6,13 @@ namespace BlogAPI.Repositories
     {
 
 
+        Task<Post> CreatePostAsync(Post post);
 
         Task<List<Post>> GetAllAsync();
 
         Task<Post?> GetByIdAsync(Guid id);
 
-        Task<Post> CreatePostAsync(Post post);
-
-        Task<Post?> UpdateBlogAsync(Guid id, Post post);
+        Task<Post?> UpdatePostAsync(Guid id, Post post);
 
         Task<Post?> DeletePostAsync(Guid id);
 

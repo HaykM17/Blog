@@ -30,6 +30,11 @@ namespace BlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddBlogRequestDTO addBlogRequestDTO)
         {
+            if(addBlogRequestDTO == null)
+            {
+                return BadRequest("Invalid request data.");
+            }
+
             var blogDomainModel = mapper.Map<Blog>(addBlogRequestDTO);
 
              blogDomainModel = await blogRepository.CreateBlogAsync(blogDomainModel);

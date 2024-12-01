@@ -17,7 +17,7 @@ namespace BlogAPI.Repositories
 
 
 
-
+        // Create
         public async Task<Blog> CreateBlogAsync(Blog blog)
         {
             await dbContext.Blogs.AddAsync(blog);
@@ -28,7 +28,7 @@ namespace BlogAPI.Repositories
       
 
 
-
+        // GetAll
         public async Task<List<Blog>> GetAllAsync()
         {
             return await dbContext.Blogs.Include(b=>b.Posts).ThenInclude(p=>p.Tags).ToListAsync();        
@@ -37,14 +37,16 @@ namespace BlogAPI.Repositories
         
 
 
-
+        // GetById
         public async Task<Blog?> GetByIdAsync(Guid id)
         {
             return await dbContext.Blogs.Include(b=>b.Posts).ThenInclude(p=>p.Tags).FirstOrDefaultAsync(b=>b.BlogId == id);
         }
 
-       
 
+
+       
+        // Update
         public async Task<Blog?> UpdateBlogAsync(Guid id,Blog blog)
         {
             var existingBlog = await dbContext.Blogs.FirstOrDefaultAsync(b=>b.BlogId == id);
@@ -62,6 +64,8 @@ namespace BlogAPI.Repositories
 
 
 
+
+        // Delete
 
         public async Task<Blog?> DeleteAsync(Guid id)
         {

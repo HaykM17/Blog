@@ -18,7 +18,7 @@ namespace BlogAPI.Mappings
             CreateMap<Post, PostDTO>().ReverseMap();
             CreateMap<AddPostRequestDTO, Post>().ReverseMap();
             CreateMap<UpdatePostRequestDTO, Post>().ReverseMap();
-
+           
             CreateMap<Tag, TagDTO>().ReverseMap();
             CreateMap<AddTagRequestDTO, Tag>().ReverseMap();
             CreateMap<UpdateTagRequestDTO, Tag>().ReverseMap();

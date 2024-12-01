@@ -1,4 +1,6 @@
 ﻿using BlogAPI.Models.Domain;
+using BlogAPI.Models.Dto.BlogDTOs;
+using BlogAPI.Models.Dto.TagDTOs;
 
 namespace BlogAPI.Models.Dto.PostDTOs
 {
@@ -15,11 +17,8 @@ namespace BlogAPI.Models.Dto.PostDTOs
         // Foreign Key for Blog
         public Guid BlogId { get; set; }
 
-        // Navigation Property for Blog
-        //public Blog Blog { get; set; }
-
-
-        public ICollection<Tag> Tags { get; set; }
+       
+        public ICollection<TagDTO> Tags { get; set; }
 
 
 

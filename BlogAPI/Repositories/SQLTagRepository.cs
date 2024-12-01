@@ -1,5 +1,6 @@
 ﻿using BlogAPI.Data;
 using BlogAPI.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Repositories
 {
@@ -20,29 +21,75 @@ namespace BlogAPI.Repositories
 
 
 
+        // Create
         public async Task<Tag> CreateTagAsync(Tag tag)
         {
-            throw new NotImplementedException();
+            await dbContext.AddAsync(tag);
+            await dbContext.SaveChangesAsync();
+            return tag;
         }
+
+
+
+
+
+
+        // GetAll
+        public async Task<List<Tag>> GetAllAsync()
+        {
+            return await dbContext.Tags.Include(t=>t.Posts).ThenInclude(p=>p.Blog).ToListAsync();
+        }
+
+
+
+
+        // GetById
+        public async Task<Tag?> GetByIdAsync(Guid id)
+        {
+            return await dbContext.Tags.Include(t => t.Posts).ThenInclude(p => p.Blog).FirstOrDefaultAsync(t=>t.TagId==id);
+        }
+
+
+
+
+
+        // Update
+        public async Task<Tag> UpdateTagAsync(Guid id, Tag tag)
+        {
+            var existingTag = await dbContext.Tags.FirstOrDefaultAsync(t=>t.TagId==id);
+            if(existingTag == null)
+            {
+                return null;
+            }
+
+            existingTag.Name = tag.Name;
+            await dbContext.SaveChangesAsync();
+            return existingTag;
+        }
+
+
+
 
         public async Task<Tag> DeleteTagAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existingTag = dbContext.Tags.FirstOrDefault(t=>t.TagId==id);
+
+            if (existingTag == null)
+            {
+                return null;
+            }
+
+            dbContext.Tags.Remove(existingTag);
+            await dbContext.SaveChangesAsync();
+            return existingTag;
         }
 
-        public async Task<List<Tag>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<Tag> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<Tag> UpdateTagAsync(Guid id, Tag tag)
-        {
-            throw new NotImplementedException();
-        }
+
+
+        
+
+        
     }
 }
