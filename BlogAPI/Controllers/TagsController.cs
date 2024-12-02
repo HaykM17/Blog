@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogAPI.Models.Domain;
+using BlogAPI.Models.Dto.BlogDTOs;
 using BlogAPI.Models.Dto.TagDTOs;
 using BlogAPI.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -129,6 +130,23 @@ namespace BlogAPI.Controllers
 
 
 
+
+        // For Restor Tag Soft Deleted Records
+        // POST: /api/Tag/Restore
+
+        [HttpPost("restore/{id}")]
+        public async Task<IActionResult> RestoreTag([FromRoute] Guid id)
+        {
+            var restoreTag = await tagRepository.RestoreTagAsync(id);
+
+            if (restoreTag == null)
+            {
+                return NotFound();
+            }
+
+            var restoreTagDto = mapper.Map<TagDTO>(restoreTag);
+            return Ok(restoreTagDto);
+        }
 
 
 

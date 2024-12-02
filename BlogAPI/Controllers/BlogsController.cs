@@ -131,9 +131,22 @@ namespace BlogAPI.Controllers
 
 
 
+        // For Restor Blog Soft Deleted Records
+        // POST: /api/Blog/Restore
 
+        [HttpPost("restore/{id}")]
+        public async Task<IActionResult> RestoreBlog([FromRoute]Guid id)
+        {
+            var restoreBlog = await blogRepository.RestoreBlogAsync(id);
 
+            if(restoreBlog == null)
+            {
+                return NotFound();
+            }
 
+            var restoreBlogDto = mapper.Map<BlogDTO>(restoreBlog);
+            return Ok(restoreBlogDto);
+        }
 
 
 

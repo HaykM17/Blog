@@ -17,7 +17,8 @@
 
 
 
-
+        // Soft Delete
+        public bool IsDeleted { get; set; }
 
 
 

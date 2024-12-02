@@ -16,6 +16,7 @@ namespace BlogAPI.Repositories
 
         Task<Post?> DeletePostAsync(Guid id);
 
+        Task<Post?> RestorePostAsync(Guid postId);
 
 
 

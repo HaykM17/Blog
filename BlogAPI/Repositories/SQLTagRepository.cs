@@ -1,6 +1,7 @@
 ﻿using BlogAPI.Data;
 using BlogAPI.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace BlogAPI.Repositories
 {
@@ -86,10 +87,20 @@ namespace BlogAPI.Repositories
 
 
 
+        // For Restore Tag Soft Deleted Records
+        public async Task<Tag?> RestoreTagAsync(Guid tagId)
+        {
+            var tag = await dbContext.Tags.IgnoreQueryFilters().FirstOrDefaultAsync(t => t.TagId == tagId);
 
+            if (tag == null)
+            {
+                return null;
+            }
 
-        
+            tag.IsDeleted = false;
+            await dbContext.SaveChangesAsync();
 
-        
+            return tag;
+        }
     }
 }

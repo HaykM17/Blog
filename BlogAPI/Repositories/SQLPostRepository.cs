@@ -30,7 +30,7 @@ namespace BlogAPI.Repositories
 
         // GetAll
         public async Task<List<Post>> GetAllAsync()
-        {
+        {        
             return await dbContext.Posts.Include(p=>p.Blog).Include(p=>p.Tags).ToListAsync();
         }
 
@@ -80,10 +80,22 @@ namespace BlogAPI.Repositories
             return existingPost;
         }
 
-      
 
-       
 
-      
+        // For Restore Post Soft Deleted Records
+        public async Task<Post?> RestorePostAsync(Guid postId)
+        {
+            var post = await dbContext.Posts.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.PostId == postId);
+
+            if (post == null)
+            {
+                return null;
+            }
+
+            post.IsDeleted = false;
+            await dbContext.SaveChangesAsync();
+
+            return post;
+        }
     }
 }

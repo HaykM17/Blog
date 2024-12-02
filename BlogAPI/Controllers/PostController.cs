@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BlogAPI.Models.Domain;
+using BlogAPI.Models.Dto.BlogDTOs;
 using BlogAPI.Models.Dto.PostDTOs;
 using BlogAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogAPI.Controllers
 {
@@ -130,6 +132,23 @@ namespace BlogAPI.Controllers
 
 
 
+
+        // For Restor Post Soft Deleted Records
+        // POST: /api/Post/Restore
+
+        [HttpPost("restore/{id}")]
+        public async Task<IActionResult> RestorePost([FromRoute] Guid id)
+        {
+            var restorePost = await postRepository.RestorePostAsync(id);
+
+            if (restorePost == null)
+            {
+                return NotFound();
+            }
+
+            var restorePostDto = mapper.Map<PostDTO>(restorePost);
+            return Ok(restorePostDto);
+        }
 
 
 

@@ -15,7 +15,7 @@ namespace BlogAPI.Repositories
 
         Task<Blog?> DeleteAsync(Guid id);
 
-
+        Task<Blog?> RestoreBlogAsync(Guid blogId);
 
 
 

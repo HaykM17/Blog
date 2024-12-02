@@ -2,6 +2,7 @@
 using BlogAPI.Models.Domain;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace BlogAPI.Repositories
 {
@@ -69,7 +70,7 @@ namespace BlogAPI.Repositories
 
         public async Task<Blog?> DeleteAsync(Guid id)
         {
-            var existingBlog = dbContext.Blogs.FirstOrDefault(i => i.BlogId == id);
+            var existingBlog = dbContext.Blogs.FirstOrDefault(b => b.BlogId == id);
             if (existingBlog == null)
             {
                 return null;
@@ -78,6 +79,31 @@ namespace BlogAPI.Repositories
             await dbContext.SaveChangesAsync();
             return existingBlog;
         }
+
+
+
+
+
+
+
+        // For Restore Blog Soft Deleted Records
+
+        public async Task<Blog?> RestoreBlogAsync(Guid blogId)
+        {
+            var blog = await dbContext.Blogs.IgnoreQueryFilters().FirstOrDefaultAsync(b => b.BlogId == blogId);
+
+            if (blog == null)
+            {
+                return null;
+            }
+
+            blog.IsDeleted = false;
+            await dbContext.SaveChangesAsync();
+
+            return blog;
+        }
+
+
 
 
 
