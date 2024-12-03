@@ -27,7 +27,7 @@ namespace BlogAPI.Data
             modelBuilder.Entity<Blog>().HasMany(b => b.Posts)
                               .WithOne(p => p.Blog)
                               .HasForeignKey(p => p.BlogId)
-                              .OnDelete(DeleteBehavior.SetNull);
+                              .OnDelete(DeleteBehavior.Restrict);
                               //.OnDelete(DeleteBehavior.Cascade);
 
 
